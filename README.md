@@ -20,4 +20,3 @@ A modern React application that provides accurate prayer times with a clean and 
 
 ## Live Demo
 https://prayer-times-app-orpin.vercel.app/
-
