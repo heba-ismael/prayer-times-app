@@ -5,7 +5,7 @@ import QiblaCompass from "./component/QiblaCompass"
 import WeekView from "./component/WeekView"
 import ActionsBar from "./component/ActionsBar"
 import CitySelector from "./component/CitySelector"
-import { cities, prayerOrder, prayerLabels, adhkarAfterPrayer, phaseBackground, text } from "./i18n"
+import { cities, countries, prayerOrder, prayerLabels, adhkarAfterPrayer, phaseBackground, text } from "./i18n"
 
 const toMinutes = (time) => {
   if (!time) return 0
@@ -17,6 +17,12 @@ const findCity = (query) => {
   if (!query) return null
   const q = query.trim().toLowerCase()
   return cities.find(c => c.value.toLowerCase() === q || c.name.ar === query.trim() || c.name.en.toLowerCase() === q) || null
+}
+
+const findCountry = (query) => {
+  if (!query) return null
+  const q = query.trim().toLowerCase()
+  return countries.find(c => c.en.toLowerCase() === q || c.ar === query.trim()) || null
 }
 
 function App() {
@@ -31,6 +37,9 @@ const [hijriDate, setHijriDate] = useState(null)
 const [cityQuery, setCityQuery] = useState("Cairo")
 const [countryQuery, setCountryQuery] = useState("Egypt")
 const method = 5
+
+const apiCity = findCity(cityQuery)?.value ?? cityQuery
+const apiCountry = findCountry(countryQuery)?.en ?? countryQuery
 
 const [isLoading, setIsLoading] = useState(true)
 const [errorMsg, setErrorMsg] = useState("")
@@ -79,7 +88,7 @@ useEffect(() => {
     try {
       const url = usingCoords
         ? `https://api.aladhan.com/v1/timings?latitude=${coords.lat}&longitude=${coords.lon}&method=${method}`
-        : `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(cityQuery)}&country=${encodeURIComponent(countryQuery)}&method=${method}`
+        : `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(apiCity)}&country=${encodeURIComponent(apiCountry)}&method=${method}`
       const response = await fetch(url)
       const data_Prayer = await response.json()
       if (!response.ok || !data_Prayer?.data?.timings) {
@@ -275,7 +284,7 @@ const toggleWeek = async () => {
   setWeekLoading(true)
   try {
     const now = new Date()
-    const res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${encodeURIComponent(cityQuery)}&country=${encodeURIComponent(countryQuery)}&method=${method}&month=${now.getMonth() + 1}&year=${now.getFullYear()}`)
+    const res = await fetch(`https://api.aladhan.com/v1/calendarByCity?city=${encodeURIComponent(apiCity)}&country=${encodeURIComponent(apiCountry)}&method=${method}&month=${now.getMonth() + 1}&year=${now.getFullYear()}`)
     const data = await res.json()
     if (!res.ok || !Array.isArray(data?.data)) {
       throw new Error("invalid response")
@@ -320,8 +329,19 @@ const handleCityChange = (value) => {
   setLocationMode("manual")
   setCityQuery(value)
   const known = findCity(value)
-  if (known) setCountryQuery(known.country)
+  if (known) {
+    const knownCountry = findCountry(known.country)
+    setCountryQuery(knownCountry ? knownCountry[lang] : known.country)
+  }
 }
+
+useEffect(() => {
+  if (locationMode === "auto") return
+  const knownCity = findCity(cityQuery)
+  if (knownCity) setCityQuery(knownCity.name[lang])
+  const knownCountry = findCountry(countryQuery)
+  if (knownCountry) setCountryQuery(knownCountry[lang])
+}, [lang])
 
   return (
   <section dir={lang === "ar" ? "rtl" : "ltr"} className={`lang-${lang}`} style={{ background: phaseBackground[phase] }}>
@@ -337,6 +357,7 @@ const handleCityChange = (value) => {
           lang={lang}
           cityQuery={cityQuery}
           countryQuery={countryQuery}
+          resolvedCountry={apiCountry}
           locationMode={locationMode}
           onCityChange={handleCityChange}
           onCountryChange={setCountryQuery}

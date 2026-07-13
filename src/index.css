@@ -147,6 +147,33 @@ section .location-btn:hover{
   border-color: rgba(212, 175, 55, 0.6);
 }
 
+section .dropdown-wrap{
+  position: relative;
+}
+section .dropdown-list{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #1f2436;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 6px;
+  z-index: 20;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+section .dropdown-item{
+  padding: 8px 12px;
+  color: #f5f2ea;
+  font-size: 14px;
+  cursor: pointer;
+}
+section .dropdown-item:hover{
+  background: rgba(212, 175, 55, 0.15);
+}
+
 section .hijri{
   color: rgba(245,242,234,0.75);
   font-size: 15px;
