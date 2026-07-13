@@ -91,11 +91,11 @@ section .top-sec h3{
   color: #f5f2ea;
   font-weight: 600;
 }
-section .top-sec .data{
+section .top-sec .date{
   width: 250px;
   text-align: end;
 }
-section .top-sec .data h4{
+section .top-sec .date h4{
   font-size: 22px;
   color: #f5f2ea;
   font-weight: 600;
@@ -310,10 +310,10 @@ section .status-msg.error{
     gap: 20px;
   }
   section .city,
-  section .top-sec .data{
+  section .top-sec .date{
     width: 100%;
   }
-  section .top-sec .data{
+  section .top-sec .date{
     text-align: start;
   }
   section .prayer{
@@ -336,7 +336,7 @@ section .status-msg.error{
   section .top-sec h3{
     font-size: 18px;
   }
-  section .top-sec .data h4{
+  section .top-sec .date h4{
     font-size: 18px;
   }
 }

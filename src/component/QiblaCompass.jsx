@@ -6,7 +6,7 @@ function QiblaCompass({ qibla, heading, compassEnabled, onEnableCompass, t }) {
       <h3>{t.qiblaTitle}</h3>
       <div className="qibla-compass">
         <span className="qibla-north" style={{ transform: `rotate(${-(heading ?? 0)}deg)` }}>N</span>
-        <div className="qibla-arrow" style={{ transform: `rotate(${qibla - (heading ?? 0)}deg)` }}>➤</div>
+        <div className="qibla-arrow" style={{ transform: `rotate(${qibla - (heading ?? 0)}deg)` }}>↑</div>
       </div>
       {compassEnabled ? (
         <p>{t.qiblaLive}</p>

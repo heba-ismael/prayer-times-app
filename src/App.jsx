@@ -145,6 +145,9 @@ const enableCompass = async () => {
   }
 }
 
+const headingSmoothRef = useRef({ sin: 0, cos: 1 })
+const lastHeadingUpdateRef = useRef(0)
+
 useEffect(() => {
   if (!compassEnabled) return
   const handleOrientation = (event) => {
@@ -154,7 +157,21 @@ useEffect(() => {
     } else if (event.alpha !== null) {
       h = 360 - event.alpha
     }
-    if (h !== undefined) setHeading(h)
+    if (h === undefined) return
+
+    const rad = (h * Math.PI) / 180
+    const smoothing = 0.15
+    const ref = headingSmoothRef.current
+    ref.sin = ref.sin * (1 - smoothing) + Math.sin(rad) * smoothing
+    ref.cos = ref.cos * (1 - smoothing) + Math.cos(rad) * smoothing
+    const smoothedDeg = (Math.atan2(ref.sin, ref.cos) * 180) / Math.PI
+    const normalized = (smoothedDeg + 360) % 360
+
+    const now = Date.now()
+    if (now - lastHeadingUpdateRef.current > 80) {
+      lastHeadingUpdateRef.current = now
+      setHeading(normalized)
+    }
   }
   window.addEventListener("deviceorientationabsolute", handleOrientation, true)
   window.addEventListener("deviceorientation", handleOrientation, true)

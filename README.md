@@ -19,7 +19,5 @@ A modern React application that provides accurate prayer times with a clean and 
 - Aladhan API
 
 ## Live Demo
-ضع هنا رابط Vercel
+https://prayer-times-app-orpin.vercel.app/
 
-## GitHub Repository
-ضع هنا رابط GitHub

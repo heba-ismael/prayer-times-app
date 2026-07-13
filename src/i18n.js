@@ -104,14 +104,6 @@ export const countries = [
   { ar: "ألمانيا", en: "Germany" },
 ]
 
-export const calculationMethods = [
-  { id: 5, name: { ar: "الهيئة المصرية العامة للمساحة", en: "Egyptian General Authority" } },
-  { id: 4, name: { ar: "أم القرى", en: "Umm Al-Qura, Makkah" } },
-  { id: 3, name: { ar: "رابطة العالم الإسلامي", en: "Muslim World League" } },
-  { id: 2, name: { ar: "الجمعية الإسلامية لأمريكا الشمالية", en: "ISNA (North America)" } },
-  { id: 1, name: { ar: "جامعة العلوم الإسلامية كراتشي", en: "Univ. of Islamic Sciences, Karachi" } },
-]
-
 export const prayerOrder = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"]
 
 export const prayerLabels = {
@@ -193,10 +185,8 @@ export const phaseBackground = {
 export const text = {
   ar: {
     cityLabel: "المدينة",
-    countryLabel: "الدولة",
     cityPlaceholder: "اكتب اسم المدينة",
     countryPlaceholder: "اكتب اسم الدولة",
-    methodLabel: "طريقة الحساب",
     useMyLocation: "استخدم موقعي الحالي",
     currentLocation: "موقعي الحالي",
     dateLabel: "التاريخ",
@@ -223,10 +213,8 @@ export const text = {
   },
   en: {
     cityLabel: "City",
-    countryLabel: "Country",
     cityPlaceholder: "Type a city name",
     countryPlaceholder: "Type a country name",
-    methodLabel: "Calculation method",
     useMyLocation: "Use my location",
     currentLocation: "My current location",
     dateLabel: "Date",
